@@ -12,6 +12,7 @@ class Hooks
     @afterEachHooks = []
     @contentTests = {}
     @skippedTests = []
+    @beforeSuiteHooks = []
 
   before: (name, hook) =>
     @addHook(@beforeHooks, name, hook)
@@ -75,6 +76,12 @@ class Hooks
   skipped: (name) =>
     @skippedTests.indexOf(name) != -1
 
+  beforeSuite: (hook) =>
+    @beforeSuiteHooks.push(hook);
+
+  runBeforeSuite: (test) =>
+    @beforeSuiteHooks.forEach (hook) =>
+      hook(test)
+
 
 module.exports = new Hooks()
-
