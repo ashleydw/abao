@@ -17,6 +17,8 @@ class TestRunner
     mocha = @mocha
     options = @options
 
+    hooks.runBeforeSuite(test);
+
     # Generate Test Suite
     suite = Mocha.Suite.create mocha.suite, test.name
 
