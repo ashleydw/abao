@@ -131,8 +131,9 @@ typeToSchemaRecursive = (jsonObject, types) ->
 
 types = {}
 
-addTests = (raml, tests, hooks, parent, callback, testFactory, apiBaseUri) ->
+addTests = (raml, tests, hooks, parent, callback, testFactory, apiBaseUri, annotations) ->
 
+  annotations = annotations || {}
   return callback() unless raml.resources().length > 0
 
   if raml.expand
@@ -147,7 +148,6 @@ addTests = (raml, tests, hooks, parent, callback, testFactory, apiBaseUri) ->
     raml.types().forEach (type) ->
       types[type.name()] = type
 
-  annotations = {}
   raml.annotations().forEach (anno) ->
     annotations[anno.name()] = anno.toJSON({serializeMetadata: false})
 
@@ -298,7 +298,7 @@ addTests = (raml, tests, hooks, parent, callback, testFactory, apiBaseUri) ->
         return callback(err)
 
       # Recursive
-      addTests resource, tests, hooks, {path, params}, callback, testFactory, apiBaseUri
+      addTests resource, tests, hooks, {path, params}, callback, testFactory, apiBaseUri, annotations
   , callback
 
 
